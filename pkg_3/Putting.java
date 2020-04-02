@@ -4,15 +4,43 @@
  * */
 package pkg_3;
 import java.util.*;
-class A {}
-class B extends A {}
-class C extends B {}
+class A { 
+	void do1(){ System.out.println( "A: do1()" ); }
+}
+class B extends A {
+	void do1(){ System.out.println( "B: do1()" ); }
+}
+class C extends B {
+	void do1(){ System.out.println( "C: do1()" ); }
+}
 class X {}
 public class Putting {
 	
 	public static void main(String[] args){
-		do1();
+		do2();
 	}
+
+	static void do2(){
+		
+		List<String> friends = new ArrayList<>();
+
+		friends.add("Monica");
+		friends.add("Phoebe");
+		friends.add("Chandler");
+		friends.add("Ross");
+		friends.add("Rachel");
+		friends.add("Joey");
+
+		Collections.sort( friends );
+
+		System.out.println( friends );
+
+		int result = Collections.binarySearch( friends, "Monica" );
+		System.out.println( "result = " + result );
+
+	}
+
+
 
 	static void do1(){
 	
@@ -47,7 +75,7 @@ public class Putting {
 		list3b.add( new C() );				// C() is a B
 		
 		list3b = new ArrayList<A>();		// OK A is parent of B
-		list3b.add( new A() );				// DNC 49: error: no suitable method found for add(A)
+		//list3b.add( new A() );				// DNC 49: error: no suitable method found for add(A)
 							// CAP#1 extends Object super: B from capture of ? super B
 		//list3b = new ArrayList<X>();		// DNC 49: error: incompatible types: ArrayList<X> cannot be converted to List<? super B>
 	
