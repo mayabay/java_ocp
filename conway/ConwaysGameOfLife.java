@@ -99,7 +99,7 @@ public class ConwaysGameOfLife {
 				for( int y = 0; y < world[x].length; y++ ){
 					int r = evolveCell( x, y );
 					if ( r == 1 ){ cellsAlive++; }
-					pBox(world);
+					//pBox(world);
 				}
 			}
 
@@ -133,7 +133,7 @@ public class ConwaysGameOfLife {
 			}
 
 			// display world
-			//pBox(world);
+			pBox(world);
 
 			// pause	
 
