@@ -15,7 +15,7 @@ public class PlantFactory {
 		Box<Lemon>[] boxes = new CardboardBox[10];	// warn 13: warning: [unchecked] unchecked conversion
 		
 		// arrays for generic classes can only use <?>
-		Box<?>[] more = new CardboardBox<?>[10];
+		Box<?>[] more = new CardboardBox<?,?>[10];
 
 		for( int i = 0; i < 10; i++ ){
 			boxes[i] = new CardboardBox<>();
@@ -25,14 +25,14 @@ public class PlantFactory {
 
 		//loadTruck( boxes );
 
-		CardboardBox<Lime> limeBox =  new CardboardBox<>();
+		CardboardBox<Lime, Integer> limeBox =  new CardboardBox<>();
 		//limeBox.add( new Orange() );	// DNC type safety at work
 										// 29: error: incompatible types: Orange cannot be converted to Lime
 		limeBox.add( new Lime() );
 			// DNC w/o cast :33: error: no suitable method found for loadTruck(CardboardBox<Lime>
 		//loadTruck( ( Box<? extends Sour> )limeBox );	// Lemon does implement Sour NOT Lime :-D
 		
-		CardboardBox<Lemon> lemonBox = new CardboardBox<>();
+		CardboardBox<Lemon,Integer > lemonBox = new CardboardBox<>();
 		lemonBox.add( new Lemon() );
 
 		Sour sourFruit = new Lemon();

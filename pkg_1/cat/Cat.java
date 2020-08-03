@@ -1,4 +1,4 @@
-package cat;
+package pkg_1.cat;
 abstract class Cat {
 
 	// 1. nix

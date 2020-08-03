@@ -1,5 +1,5 @@
-package cat.species;
-import cat.BigCat;
+package pkg_1.cat.species;
+import pkg_1.cat.BigCat;
 public class Lynx extends BigCat {
 
 	
@@ -16,7 +16,6 @@ public class Lynx extends BigCat {
 
 		// package private
 		// System.out.println( cat.hasPaws  );	// DNC 18: error: hasPaws is not public in BigCat; cannot be accessed from outside package
-
 
 		// access protected 
 		Lynx lynx = new Lynx();

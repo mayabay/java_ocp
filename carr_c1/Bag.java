@@ -1,4 +1,4 @@
-package carr_c2;
+package carr_c1;
 public interface Bag<T> {
 	
 	int getCurrentSize();

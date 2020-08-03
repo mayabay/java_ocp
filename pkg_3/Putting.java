@@ -17,8 +17,58 @@ class X {}
 public class Putting {
 	
 	public static void main(String[] args){
-		do2();
+		do3();
 	}
+
+	static void do3(){
+
+		List<?> li1 = new ArrayList<>();	// it is unknown what li1 references
+		//li1.add( new Object() );	// DNC CAP#1 extends Object
+
+		List<?> li11 = new ArrayList<A>();
+
+		List<? extends A> li2 = new ArrayList<A>();
+
+		List<? super A> li3 = new ArrayList<A>();
+
+		//List<? extends B> li4 = new ArrayList<A>();	
+					// DNC 33: error: incompatible types: ArrayList<A> cannot be converted to List<? extends B>
+
+		List<? super B> li5 = new ArrayList<B>();
+
+		//List<?> li6 = new ArrayList<? extends A>(); // DNC 39: error: unexpected type
+				// required: class or interface without bounds
+
+		// OK
+		//System.out.println(  Putting.<Integer>getZeroIdx( Arrays.asList(12,13,14) )  );
+		// OK
+		//System.out.println(  getZeroIdx( Arrays.asList(12,13,14) )  );
+
+	} 
+
+
+	private static <T> T getZeroIdx( List<? extends T> t ){
+		return t.get(0);
+	}
+
+
+	//private static <T extends A> T m3( List<B> list ){
+	//	return new B();	// DNC 56: error: incompatible types: B cannot be converted to T  
+	//}
+
+	//private static <B extends A> B m3( List<B> list ){
+	//	return new B(); // DNC 55: error: unexpected type
+			// req: class
+			// found: type param B
+	//}
+
+	/*
+	 *  return type cannot be a bounded type
+		55: error: invalid method declaration; return type required
+	private static <T> <? extends T> getZeroIdx2( List<? extends T> t ){
+		return t.get(0);
+	}
+	 * */
 
 	static void do2(){
 		
@@ -37,6 +87,7 @@ public class Putting {
 
 		int result = Collections.binarySearch( friends, "Monica" );
 		System.out.println( "result = " + result );
+
 
 	}
 

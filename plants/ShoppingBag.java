@@ -39,7 +39,7 @@ public class ShoppingBag {
 		
 		// built in array
 		Plant[] plants = new Plant[4];
-		plants[0] = new Ananas();
+		plants[0] = new Hilo();
 		plants[1] = new Orange();
 		//printArr( plants );
 		Cucumis[] manyCucumis = { new Cucumber(), new KoreanMelon() };
@@ -55,7 +55,7 @@ public class ShoppingBag {
 		Collection<Plant> coll = new ArrayList<>();
 		coll.add( new Pineapple() );
 		coll.add( new KoreanMelon() );
-		Sweet sweetAnanas = new Ananas();
+		Sweet sweetAnanas = new Pineapple();
 		//coll.add( sweetAnanas );
 		//printBag(coll);
 
@@ -158,7 +158,7 @@ public class ShoppingBag {
 	private static Collection<? extends Object> /*Collection<?>*/ addPlants( Collection<? super Citrus> coll ){
 		coll.add( new Orange() );
 		coll.add( new Lemon() );
-		coll.add( new Citrus() );
+		coll.add( new Lime() );
 		//coll.add( new Plant() );		// DNC incompat
 		return coll;
 	}

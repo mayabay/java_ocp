@@ -15,9 +15,9 @@ class FinalTest1{
 		// 32 bit int float
 		// 64 bit long double
 		double d = (long)34;	// ok		
-		long l = (double)34;	// DNC incompat	
+		//long l = (double)34;	// DNC incompat	
 
-		 (float)34;
+		 //(float)34;			// DNC err not a stmt
 
 
 

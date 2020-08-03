@@ -1,4 +1,4 @@
-package cat;
+package pkg_1.cat;
 public class CatAdmirer {
 	
 	public static void main(String[] args){

@@ -3,7 +3,7 @@ class HeavyAnimal implements CanEatMuch  {}
 class Hippo extends HeavyAnimal {}
 class Elephant extends HeavyAnimal {}
 interface CanEatMuch {}
-interface CanFly {}
+interface CanFly2 {}
 class InstanceOfTest {
 
 	public static void main(String[] args){	
@@ -38,7 +38,7 @@ class InstanceOfTest {
 
         // B is an interface + B is unrelated to a --> OK, maybe at runtime type of a will implement B
 
-        System.out.println( "ele2 instanceof CanFly ->  " + ( ele2 instanceof CanFly )  );
+        System.out.println( "ele2 instanceof CanFly ->  " + ( ele2 instanceof CanFly2 )  );
 
 
     }	

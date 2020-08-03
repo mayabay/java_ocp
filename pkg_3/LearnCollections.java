@@ -1,13 +1,18 @@
 package pkg_3;
 import java.util.*;
+import plants.*;
 public class LearnCollections {
 
 	static List<String> birds = new ArrayList<>();
 
 	public static void main(String[] args){
-		do1();
+		do2();
 	}
 
+	static void do2(){
+		Collection<Ananas> coll = new ArrayList<>();
+
+	}
 
 	static void do1(){
 	

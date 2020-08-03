@@ -5,7 +5,7 @@ public enum CoffeeSize {
 	int ounces;
 
 	//public CoffeeSize( int ounces ){		// DNC public not allowed here
-	CoffeeSize
+	CoffeeSize(int ounces){
 		this.ounces = ounces;
 	}
 }

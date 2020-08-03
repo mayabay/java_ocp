@@ -57,7 +57,7 @@ public class Fraction {
 
 	// shortens the fraction if possible
 	private static Fraction shorten(Fraction fraction){
-		if (fraction.getNum() > Fraction.getDenom() ){
+		if (fraction.getNum() > fraction.getDenom() ){
 			return null;
 		}else{
 			return fraction;
