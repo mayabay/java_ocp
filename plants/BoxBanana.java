@@ -67,4 +67,22 @@ public class BoxBanana<T extends Plant> implements Box<T> {
 		return list.get( index );
 	}
 
+	
+	/**
+	 * String representation of this object
+	 * @return string representation
+	 * */
+	public String toString(){
+		StringBuffer type = new StringBuffer();
+		if ( list.size() > 0 ){
+			Object o = list.get(0);
+			Class<?> cl = o.getClass();
+			type.append( cl.getName() );
+		}else{
+			type.append("unknown");
+		}
+		return "CardboardBox with " + list.size() + " items of type: " + type;
+	}	
+	
+	
 }

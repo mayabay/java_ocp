@@ -2,7 +2,6 @@ package plants;
 import java.util.*;
 public class StrongCardboardBox<T extends Plant, S, U> extends CardboardBox<T,S> {
 
-
 	// u is a reference to the manufacturer
 	private U manuRef;
 

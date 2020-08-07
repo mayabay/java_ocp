@@ -12,9 +12,9 @@ public interface Box<T extends Plant > {
 	boolean add(T t);
 
 	/**
-	 * Remove plant ffrom box
+	 * Remove plant from box
 	 * @param T t a plant
-	 * @return true, if successfull
+	 * @return true, if successful
 	 * */
 	boolean remove(T t);
 
@@ -36,4 +36,12 @@ public interface Box<T extends Plant > {
 	 * @return element count
 	 * */
 	int size();
+	
+	/**
+	 * 
+	 * */
+	default String getType() {
+		return (this.getClass()).getCanonicalName();
+	}
+	
 }
