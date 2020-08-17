@@ -5,7 +5,23 @@ import java.util.*;
 public class SetTest1 {
 	
 	public static void main(String[] args){
-		do3();
+		//do3();
+		go();
+	}
+
+	private static void go(){
+		Set<Dog> dogs = new HashSet<>();
+		
+		dogs.add( new Dog("aiko") );
+		dogs.add( new Dog("magnolia") );
+		dogs.add( new Dog("clover") );
+		
+		System.out.println( dogs );
+
+		Set set = new TreeSet();
+		set.add( "a" );
+		set.add( 2 );
+
 
 	}
 
