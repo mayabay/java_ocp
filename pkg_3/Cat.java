@@ -1,6 +1,6 @@
 package pkg_3;
-/** Represents a dog */
-public class Dog extends Animal implements Comparable<Dog> {
+/** Represents a cat */
+public class Cat extends Animal implements Comparable<Cat> {
 	
 	private static int idSrc;
 
@@ -8,19 +8,19 @@ public class Dog extends Animal implements Comparable<Dog> {
 	private int id;
 
 	/** ctor */
-	public Dog(){
+	public Cat(){
 		this.id = ++idSrc;
-		this.name = "unnamed dog " + id;
+		this.name = "unnamed cat " + id;
 	}
 
 	/** ctor */
-	public Dog(String name){
+	public Cat(String name){
 		this.name = name;
 		this.id = ++idSrc;
 	}
 	
 	public String getSpecies(){
-		return "Canis Lupus";
+		return "Felis Catus";
 	}
 
 	/** getter */
@@ -34,17 +34,17 @@ public class Dog extends Animal implements Comparable<Dog> {
 	}
 
 	/** Compares by name */
-	public int compareTo( Dog other ){
+	public int compareTo( Cat other ){
 		return name.compareTo( other.getName() );
 	}
 
 	/** true: name, id */
 	public boolean equals (Object o){
-		if ( o == null || !( o instanceof Dog ) ){
+		if ( o == null || !( o instanceof Cat ) ){
 			return false;
 		}
 
-		Dog other = (Dog)o;
+		Cat other = (Cat)o;
 
 		if (this.name.equals( other.getName() )  ){
 			if ( this.id == other.getId() ){
