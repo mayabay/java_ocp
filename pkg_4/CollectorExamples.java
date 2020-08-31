@@ -1,6 +1,6 @@
 package pkg_4;
 import java.util.*;
-import java.util.streams.*;
+import java.util.stream.*;
 /** 
  * Examples for Collector implementations from the Collectors class 
  *

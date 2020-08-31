@@ -59,6 +59,15 @@ public class BoxBanana<T extends Plant> implements Box<T> {
 	}
 
 	/**
+	 * Removes all plants elements from this box
+	 * @return returns the empty box
+	 * */
+	public Box<? extends Plant> clear(){
+		this.list.clear();
+		return this;
+	}
+
+	/**
 	 * Returns T from box at specified index
 	 * @param index postition
 	 * @return T at that position, not in box anymore
