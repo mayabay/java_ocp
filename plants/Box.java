@@ -36,9 +36,16 @@ public interface Box<T extends Plant > {
 	 * @return element count
 	 * */
 	int size();
-	
+
 	/**
-	 * 
+	 * Removes all plants elements from this box
+	 * @return returns the empty box
+	 * */
+	Box<? extends Plant> clear();
+
+	/**
+	 * Returns the type of the plant contained in this box
+	 * @return type of plant
 	 * */
 	default String getType() {
 		return (this.getClass()).getCanonicalName();

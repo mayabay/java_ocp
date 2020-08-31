@@ -86,6 +86,14 @@ public class CardboardBox<T extends Plant, S> implements Box<T> {
 	}
 
 	/**
+	 * Remove all elements from this box
+	 * */
+	public Box<? extends Plant> clear(){
+		list.clear();
+		return this;
+	}
+
+	/**
 	 * String representation of this object
 	 * @return string representation
 	 * */
