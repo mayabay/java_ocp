@@ -1,5 +1,7 @@
 package pkg_4;
 import java.util.*;
+import java.util.stream.Stream;
+
 import plants.*;
 /**
  * OCP 4.2
@@ -11,7 +13,9 @@ public class LearnOptional{
 	/** main() */
 	public static void main(String[] args){
 		LearnOptional lo = new LearnOptional();
-		lo.go();
+		//lo.go();
+		//lo.chainOptional(lo.getBox(3));
+		lo.chainOptional2();
 	}
 
 	private void go(){
@@ -45,6 +49,23 @@ public class LearnOptional{
 		return Optional.ofNullable( boxes );	
 	}
 
-
+	private void chainOptional( Optional<?> opt ) {
+		opt	.flatMap( o -> { return  Optional.of( o.toString() ) ; } )
+			.ifPresent( System.out::println );
+	}
+	
+	private void chainOptional2() {
+		String[] arr = { "Fred", "Wilma", "Frank", "Lisa", "Bart" };
+		
+		Stream<String> strStream = Arrays.stream(arr);
+		
+		Optional<Integer> opt = strStream
+				.map( String::length )
+				.reduce( (i1, i2) -> { return i1 += i2; } );
+		
+		System.out.println( opt.orElse(42) );	// 22
+		
+		
+	}
 
 }

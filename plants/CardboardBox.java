@@ -4,7 +4,7 @@ import java.util.*;
  * A cardboard box for plants of type T and 
  * some unique identifier of type S
  * */
-public class CardboardBox<T extends Plant, S> implements Box<T> {
+public class CardboardBox<T extends Plant, S> implements Box<T>, Comparable<CardboardBox<T,S>> {
 
 	/**
 	 * No-arg constructor 
@@ -109,4 +109,10 @@ public class CardboardBox<T extends Plant, S> implements Box<T> {
 		return "CardboardBox with " + list.size() + " items of type: " + type;
 	}
 
+	@Override
+	public int compareTo( CardboardBox<T, S> other ) {
+		Integer intObj = (Integer)other.getId();
+		return ((Integer)this.id).intValue() - intObj.intValue();
+	}	
+	
 }

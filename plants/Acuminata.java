@@ -1,5 +1,5 @@
 package plants;
-/** A KoreanMelon is a cucumis fruit */
+/** Acuminata is a banana fruit native to south east asia */
 public class Acuminata extends Musa {
 
      /** No-arg constructor */
