@@ -39,7 +39,7 @@ public class SurinamBananas {
 	};	
 	
 	// supplies banana boxes
-	private Supplier< CardboardBox<Musa,Integer> > boxSupplier = () -> {
+	public Supplier< CardboardBox<Musa,Integer> > boxSupplier = () -> {
 		return new CardboardBox<>( ++idSrc );
 	};
 	
