@@ -1,0 +1,1 @@
+Using Try-With_Resources The new try-with-resources statement automatically closes all resources opened in the try close.This feature is also known as automatic resource management, because Java automatically takes careof closing.
