@@ -1,4 +1,11 @@
+
+Exam
+==============================
+Java 8 (808/809) vs Java 11 (819)
+https://coderanch.com/t/735313/certification/Java-Java
+
 7 - Concurrency
 ==============================
 
 https://blog.overops.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/
+
