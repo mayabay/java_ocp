@@ -101,10 +101,10 @@ public class CardboardBox<T extends Plant, S> implements Box<T>, Comparable<Card
 		StringBuffer type = new StringBuffer();
 		if ( list.size() > 0 ){
 			Object o = list.get(0);
-			Class<?> cl = o.getClass();
+			Class<?> cl = o.getClass().getSuperclass();
 			type.append( cl.getName() );
 		}else{
-			type.append("unknown");
+			type.append("-");
 		}
 		return "CardboardBox with " + list.size() + " items of type: " + type;
 	}

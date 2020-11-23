@@ -17,6 +17,7 @@ public class WareHouse<T> {
 	
 	public WareHouse( int maxCapacity, int initialItemCount, T t ) {
 		this.storageType = t;
+		
 		this.maxCapacity = maxCapacity;
 		this.itemsCount = initialItemCount;
 		System.out.println("warehouse created for " + storageType + ", maxCapacity : " + maxCapacity + ", in store : " + initialItemCount);
