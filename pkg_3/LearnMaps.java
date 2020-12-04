@@ -25,7 +25,7 @@ public class LearnMaps {
 	private void pMap( Map<?,?> map ) {
 		Set<?> keySet = map.keySet();			// one of the 3 collection views
 		Collection<?> values = map.values();	// values collection
-		Set<Map.Entry<?, ?>> set = map.entrySet();
+		Set<?> set = map.entrySet();
 		Set<?> set2 = map.entrySet();
 		for ( Object o : values ){
 			System.out.println( o );
