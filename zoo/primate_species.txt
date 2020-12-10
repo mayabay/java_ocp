@@ -1,0 +1,7 @@
+äöüß
+Kingdom			Animalia
+Phylum			Chordata
+Class			Mammalia
+Mirorder		Primatomorpha
+Order			Primates
+Suporder		Strepsirrhini, Haplorhini
