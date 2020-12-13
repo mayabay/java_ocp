@@ -3,12 +3,16 @@
  */
 package pkg_9;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -27,6 +31,9 @@ public class FilesClassTest1 {
 		}
 	}
 	
+	/**
+	 * workingDir might throw an exception!!!
+	 * */	
 	protected FilesClassTest1() throws IOException {
 		
 	}
@@ -42,7 +49,8 @@ public class FilesClassTest1 {
 		//fct1.test3();
 		//fct1.test4();
 		//fct1.test5();
-		fct1.test6();
+		//fct1.test6();
+		fct1.test7();
 	}
 
 	private void test1() {
@@ -173,6 +181,38 @@ public class FilesClassTest1 {
 		
 	}
 	
-	private 
+	/**
+	 * read and write with Files
+	 * */
+	private void test7() {
+		
+		Charset charsetDef = Charset.defaultCharset();
+		Set<String> aliases = charsetDef.aliases();
+		System.out.println("aliases" + aliases);
+		System.out.println("canonical name = " + charsetDef.name() );
+		System.out.println("----------");
+		
+		Path path = Paths.get("/home", "andreas", "ThomasMann_TodInVenedig.txt");
+		Path pathCopyUTF16 = Paths.get("/home", "andreas", "ThomasMann_TodInVenedig_UTF16.txt");
+		System.out.println("file ("+path.toString()+") exists = " + Files.exists(path));
+		
+		if (Files.exists(path)) {
+			try( BufferedReader reader = Files.newBufferedReader(path);
+					BufferedWriter writer = Files.newBufferedWriter(pathCopyUTF16, Charset.forName("UTF-16"))
+					){
+				String line;
+				int lineCount = 0;
+				while ( (line = reader.readLine()) != null ) {
+					//System.out.println(line);
+					lineCount++;
+					writer.write(line);
+				}
+				System.out.println("file has lines = " + lineCount);
+				System.out.println("file written to = " + pathCopyUTF16.toAbsolutePath());
+			}catch( IOException e ) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 }
