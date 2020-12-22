@@ -35,8 +35,8 @@ public class BobsBooksTest1 {
 		BobsBooksTest1 bbt1 = new BobsBooksTest1();
 		//bbt1.listDBData();
 		//bbt1.printTableData("Customer");
-		bbt1.printDBMetaData();
-		//bbt1.updatesWithResultSet();
+		//bbt1.printDBMetaData();
+		bbt1.updatesWithResultSet();
 	
 	}
 
@@ -314,24 +314,33 @@ public class BobsBooksTest1 {
 			System.out.println("cursor current row = " + rs.getRow() + " after insertion of Darwin.");
 			rs.absolute(0);
 			// (5) show table again
-			//this.printTable(rs);
+			this.printTable(rs);
 			
 			// (6) update darwin
 			System.out.println("-- update Darwin to Wallace ----------");
-			if (!rs.last()) {return;} else { System.out.println("isLast = " + rs.isLast() ); }
+			//if (!rs.last()) {return;} else { System.out.println("isLast = " + rs.isLast() ); }
+			
+			rs.absolute(-1);	// 10-1 = 9
+			rs.afterLast(); 	//  after last
+			rs.relative(-1);	// 11 kennt er nicht
+			rs.relative(-1);
+			rs.absolute(11);
+			
 			int r = rs.getRow();
+			
 			System.out.println("r is " + r);
-			do {
-				
-				if ( rs.getString("LastName").equals("Darwin") ) {	// RT java.sql.SQLException: Before start of result set
-					rs.updateString("FirstName","Alfred");
-					rs.updateString("LastName","Wallace");
-					rs.updateRow();
-				}
-				rs.relative(-1);
-				r--;
-			}while( r >=0 );
-			this.printTable(rs);
+//			// 11 Darwin
+//			do {
+//				// cursor 0 // RTE Before start of result set
+//				if ( rs.getString("LastName").equals("Darwin") ) {	// RT java.sql.SQLException: Before start of result set
+//					rs.updateString("FirstName","Alfred");
+//					rs.updateString("LastName","Wallace");
+//					rs.updateRow();
+//				}
+//				rs.relative(-1);
+//				r--;
+//			}while( r >=0 );
+//			this.printTable(rs);
 			
 			// (7) delete Alfred Wallace
 			System.out.println("-- delete Wallace ----------");
