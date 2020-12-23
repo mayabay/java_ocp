@@ -3,7 +3,34 @@ import java.util.*;
 class LegacyCollections {
 	
 	public static void main(String[] args){
-		go3();
+		//go3();
+		LegacyCollections lc = new LegacyCollections();
+		Map<String, String> map = new LinkedHashMap<>(); 
+		//Map<String, String> map = new HashMap<>();
+		map.put( "Max", "Berlin" );
+		map.put( "Fritz", "Mannheim" );
+		map.put( "Lisa", "Stuttgart" );
+		//lc.readMap(map);
+		
+		Hashtable<String, String> ht = new Hashtable<String, String>();
+		ht.put("1", "Jan");
+		ht.put("2", "Feb");
+		
+		
+		
+		Vector<String> vec = new Vector<>();
+		vec.add("Monday"); vec.add("Tuesday");
+		lc.test1( vec.elements() );
+		lc.test1( ht.elements() );
+		// Enumeration 1.0
+		
+		// Iterator 1.2
+		
+		// Collection List Iterator
+		ArrayList<Integer> ints = new ArrayList<Integer>();
+		Iterator<Integer> iter =  ints.iterator();
+		 
+		
 	}
 
 	private static void go(){
@@ -65,4 +92,29 @@ class LegacyCollections {
 		}
 	}
 
+	private void test1( Enumeration<String> names ) {
+		// only with Iterable things
+//		for ( String name : names ) {
+//			
+//		}
+		
+		while( names.hasMoreElements() ) {
+			System.out.println(names.nextElement());
+		}
+		
+	}
+	
+	private void readMap( Map<String, String> map ) {
+		
+		// Max Berlin
+		// Fritz Mannheim
+		
+		Set<Map.Entry<String, String>> set =  map.entrySet();
+		
+		for( Map.Entry<String, String> entry : set ) {
+			System.out.printf( "'%1$-10s' '%2$20s' %n", entry.getKey(), entry.getValue() );
+		}
+		
+	}
+	
 }
