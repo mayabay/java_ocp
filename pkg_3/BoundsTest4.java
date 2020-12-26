@@ -40,10 +40,13 @@ public class BoundsTest4 {
 	}
 
 	private void test1() {
-		NumberBox<Double> box1 = new NumberBox<Double>( 3.4,8.95,1.25,4D,13.75 );
+		NumberBox<Double> box1 = new NumberBox<Double>( 3.4,8.95,1.25,4D,13.75,7D );
 		NumberBox<Long> box2 = new NumberBox<Long>( 34L,78L,1L,890L,1973L,1_234_567L );
 		NumberBox<Integer> box3 = new NumberBox<Integer>( 23,127,-128,56,0,1235 );
-		this.testBoxes( 7 , new NumberBox[] { box1, box2, box3 });
+		//this.testBoxes( 7 , new NumberBox[] { box1, box2, box3 });
+			// 7 is Integer // RTE java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer 
+		this.testBoxes( 70D , new NumberBox[] { box1 });
+		
 	}
 	
 	private void testBoxes( Number number, NumberBox<? extends Number>...boxes ) {
