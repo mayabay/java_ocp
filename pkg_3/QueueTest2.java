@@ -9,8 +9,15 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Dominik's Queue Test
+ * 
+ * */
 public class QueueTest2 {
 	
+	/**
+	 * NavigableSet Test
+	 * */
 	class NumberBox<T extends Number> {
 		private Set<Number> numbers;
 		{ numbers = new TreeSet<>();  }
