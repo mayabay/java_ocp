@@ -26,7 +26,11 @@ public class RawTypesTest1 {
 		list.add(1);
 		list.add(2);
 		list.add(3);
-		Integer i = (Integer)list.get(1);
+		//Integer i = list.get(0);
+		Object i = list.get(0);
+		//int i2 = list.get(0); // DNC
+		
+		// Integer i = (Integer)list.get(1);
 		System.out.println(i);
 	}
 	

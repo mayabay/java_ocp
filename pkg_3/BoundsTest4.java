@@ -45,7 +45,7 @@ public class BoundsTest4 {
 		NumberBox<Integer> box3 = new NumberBox<Integer>( 23,127,-128,56,0,1235 );
 		//this.testBoxes( 7 , new NumberBox[] { box1, box2, box3 });
 			// 7 is Integer // RTE java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer 
-		this.testBoxes( 70D , new NumberBox[] { box1 });
+		this.testBoxes( 23 , new NumberBox[] { box3 });
 		
 	}
 	
