@@ -47,8 +47,10 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Predicate;
@@ -68,10 +70,22 @@ public class StreamManusGenes {
 		id = ++counter;
 	}
 	
+	// Serotonin rs25531
 	Predicate<StreamManusGenes.SNP> predicate_rs25531_GG = snp -> { 
-				return ( snp.getGenotype().equals("GG") || snp.getGenotype().equals("CC") );
-			};
+		if ( snp.getRsid().equals("rs25531") ) {
+			return ( snp.getGenotype().equals("GG") || snp.getGenotype().equals("CC") );
+		}
+		return false;
+	};
 	
+	// Alcohol rs1799971
+	Predicate<StreamManusGenes.SNP> predicate_rs1799971 = snp -> {
+		if ( snp.getRsid().equals("rs1799971") ) {
+			return ( snp.getGenotype().equals("AG") || snp.getGenotype().equals("TC") );	
+		}
+		return false;
+	};	
+			
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -170,7 +184,10 @@ public class StreamManusGenes {
 		smg.loadData(Paths.get("ManuSporny-genome.txt"));
 		smg.buildSNPs();
 		smg.testSNPList();
-		smg.groupSNPsByChromosome();
+		//smg.groupSNPsByChromosome();
+		//smg.groupByGenotype();
+		//boolean b = smg.testFor("has alcohol cravings ", smg.predicate_rs1799971);
+		smg.joinChromsomes();
 	}
 
 	private long getMillisFromInstants( Instant start, Instant end ) {
@@ -220,8 +237,8 @@ public class StreamManusGenes {
 		}
 		
 		snps = 
-			lines.stream()
-			//lines.parallelStream()
+			//lines.stream()
+			lines.parallelStream()
 			.filter( li -> li.startsWith("#") == false )
 			.map( li -> {
 				String[] strArr = li.split("\t");
@@ -257,18 +274,75 @@ public class StreamManusGenes {
 		Instant startInst = Instant.now(); 		
 		//Map<String,List<SNP>> map =
 		Map<String,Set<String>> map =
-		//snps.stream()
-		snps.parallelStream()
-		//.collect( Collectors.groupingBy(SNP::getChromosome) );
-		.collect( Collectors.groupingBy(SNP::getChromosome, TreeMap::new, Collectors.mapping(SNP::getRsid, Collectors.toSet())) );
+		snps.stream()
+		//snps.parallelStream()
+		// (1) only K
+		//.collect( Collectors.groupingBy(SNP::getChromosome) );	// K , V -> Map<K, List<T>>
+		// (2) K and V
+		.collect( Collectors.groupingBy(SNP::getChromosome, Collectors.mapping(SNP::getRsid, Collectors.toSet() ) ) );	// Map<K,V>
+		// (3) K and V and Type of result Map
+		//.collect( Collectors.groupingBy(SNP::getChromosome, TreeMap::new, Collectors.mapping(SNP::getRsid, Collectors.toSet())) );
 		Instant endInst = Instant.now();
 		System.out.println("group by chromosomes took millis secs. = " + this.getMillisFromInstants(startInst, endInst));
 		
 		Set<String> keySet = map.keySet();
 		
+		String ChromosomeWithMostSNPs = "";
+		long maxSNPCount = 0;
+		
 		for ( String s : keySet ) {
-			System.out.println("SNPs on chromosome " + s + " = " + (map.get(s)).size() );
+			long SNPCount = map.get(s).size();
+			if ( SNPCount > maxSNPCount ) { maxSNPCount = SNPCount; ChromosomeWithMostSNPs = s; }
+			System.out.println("SNPs on chromosome " + s + " = " + SNPCount );
 		}
+		
+		System.out.println("Chromosome " + ChromosomeWithMostSNPs + " has most SNPs.");
+	}
+	
+	private void groupByGenotype() {
+		Instant startInst = Instant.now(); 		
+		TreeMap<String, Set<SNP>> map =
+		
+		snps
+			.stream()
+			//.parallelStream()
+			//.collect( Collectors.groupingBy( SNP::getGenotype ) );
+			.collect( Collectors.groupingBy( SNP::getGenotype, TreeMap::new, Collectors.toSet() ) );	// Map<String, Set<SNP>>
+			
+		Instant endInst = Instant.now();
+		System.out.println("group by genptype took millis secs. = " + this.getMillisFromInstants(startInst, endInst));		
+				
+		System.out.println("----------");
+		
+		Set<Entry<String,Set<SNP>>>  set = map.entrySet();
+		for ( Entry e : set ) {
+			System.out.println(e.getKey());
+		}
+		
+	}
+	
+	private boolean testFor( String testName,  Predicate<SNP> pred ) {
+		
+		boolean b =
+		snps
+			.stream()
+			.anyMatch(pred);
+		
+		System.out.println( testName + " = " + b );
+		
+		return b;
+	}
+	
+	private void joinChromsomes() {
+		// List<SNP>
+		String s =
+		snps
+		.stream()
+		.map( SNP::getChromosome )	// SNP -> String
+		.distinct()
+		.collect( Collectors.joining("-") );
+		
+		System.out.println(s);
 	}
 	
 }
