@@ -52,38 +52,38 @@ public class StreamTest2 {
 		/**
 		 * @return the id
 		 */
-		private int getId() {
+		public int getId() {
 			return id;
 		}
 		/**
 		 * @return the name
 		 */
-		private String getName() {
+		public String getName() {
 			return name;
 		}
 		/**
 		 * @return the width
 		 */
-		private double getWidth() {
+		public double getWidth() {
 			return width;
 		}
 		/**
 		 * @return the depth
 		 */
-		private double getDepth() {
+		public double getDepth() {
 			return depth;
 		}
 		/**
 		 * @return the area
 		 */
-		private double getArea() {
+		public double getArea() {
 			return area;
 		}
 		
 		/**
 		 * @return the temperature
 		 */
-		private double getTemperature() {
+		public double getTemperature() {
 			return temperature;
 		}
 		
@@ -105,8 +105,10 @@ public class StreamTest2 {
 		}
 		@Override
 		public String toString() {
+			String area = String.format("%1$5.2f", this.getArea());
+			String temp = String.format("%1$5.2f", this.getTemperature());
 			return "Thing [id=" + id + ", name=" + name +
-					", area=" + area + ", temper = "+this.temperature+"]";
+					", area=" + area + ", temp. = "+temp+"]";
 		}
 		
 		
