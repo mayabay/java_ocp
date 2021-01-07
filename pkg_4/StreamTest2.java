@@ -27,6 +27,7 @@ public class StreamTest2 {
 	private Supplier<Thing> thingSupp = StreamTest2::randomTing;
 	
 	public static class Thing implements Comparable<Thing> {
+		private static final String[] colors = {"red","green","blue","yellow","black","white","orange"};
 		private int id;
 		private String name;
 		private double width;
@@ -34,6 +35,7 @@ public class StreamTest2 {
 		private double area;
 		private LocalDateTime created;
 		private double temperature;
+		private String color;
 		private Thing() {}
 		Thing(int id, String name, double width, double depth) {
 			super();
@@ -44,10 +46,12 @@ public class StreamTest2 {
 			this.area = this.calculateArea();
 			this.created = LocalDateTime.now();
 			this.temperature = this.calculateTemperature();
+			this.color = this.calcucateColor();
 		}
 		
 		private double calculateArea() { return this.width * this.depth; }
 		private double calculateTemperature() { return (30 + StreamTest2.random.nextInt(49)) + (StreamTest2.random.nextDouble() * 10); }
+		private String calcucateColor() { return colors[ StreamTest2.random.nextInt(colors.length) ]; } 
 		
 		/**
 		 * @return the id
@@ -87,6 +91,13 @@ public class StreamTest2 {
 			return temperature;
 		}
 		
+		/**
+		 * @return the color
+		 */
+		public String getColor() {
+			return color;
+		}		
+		
 		@Override
 		public int compareTo( Thing other ) { return this.id - other.getId(); }
 		
@@ -108,7 +119,7 @@ public class StreamTest2 {
 			String area = String.format("%1$5.2f", this.getArea());
 			String temp = String.format("%1$5.2f", this.getTemperature());
 			return "Thing [id=" + id + ", name=" + name +
-					", area=" + area + ", temp. = "+temp+"]";
+					", area=" + area + ", temp. = "+temp+", color = "+color+"]";
 		}
 		
 		
