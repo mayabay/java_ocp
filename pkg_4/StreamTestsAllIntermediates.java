@@ -1,8 +1,13 @@
+/**
+ * HH-DR
+ * https://github.com/HH-DR/SimpleTests/blob/master/SimpleTests/src/ocp4/StreamTestsAllIntermediates.java
+ * */
 package pkg_4;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
@@ -126,6 +131,7 @@ public class StreamTestsAllIntermediates {
 		dinglist3.add( Ding.makeDing() );
 		dinglist4.add( Ding.makeDing() );
 		
+		// test 1
 		Stream<List<Ding>> listDingStream = Stream.of(dinglist1,dinglist2,dinglist3,dinglist4 );
 	
 		long amount = listDingStream.flatMap( liste -> liste.stream() ) 		// auf den Listen kann stream() aufgerufen werden, weil sie Collections sind
@@ -134,27 +140,56 @@ public class StreamTestsAllIntermediates {
 		System.out.println(amount);
 		
 		
+		// iterate hat Startwert und Lambda im Ggs zu generate, das nur Lambda hat
+		Stream<String> elsen = Stream.iterate( "Petra", e -> "Elsa");
+		elsen.limit(3)
+			 .forEach( System.out::println );
 		
 		
+		// Verschachtelung von Collections und Auflösung mit flatMap()
+		// macht wenig Sinn; siehe auch
+		// https://stackoverflow.com/questions/25147094/how-can-i-turn-a-list-of-lists-into-a-list-in-java-8
+		
+		List<String> stringList1_Layer1 = new ArrayList<>();		// 1. Ebene
+		stringList1_Layer1.add("Layer one");
+		List<String> stringList2_Layer1 = new ArrayList<>();
+		stringList2_Layer1.add("ganz unten");
 		
 		
+		List<List<String>> listList1_Layer2 = new ArrayList<>();	// 2. Ebene
+		listList1_Layer2.add( stringList1_Layer1 );	
+		List<List<String>> listList2_Layer2 = new ArrayList<>();
+		listList2_Layer2.add( stringList2_Layer1 );
 		
 		
+		List<List<List<String>>> listOflistLists_Layer3 = new ArrayList<>();	// 3. Ebene
+		listOflistLists_Layer3.add( listList1_Layer2);
+		listOflistLists_Layer3.add( listList2_Layer2);
+		
+		String total = 
+				listOflistLists_Layer3.stream()	
+				.flatMap( layer2List ->  layer2List.stream() )
+				.flatMap( layer1List ->  layer1List.stream() )
+				.collect( Collectors.joining("-") );
+		
+		System.out.println(" total = " + total);
+		
+//		//Stream<String> unwrappedStringStream = 
+//		listOflistLists_Layer3.stream().peek(System.out::println)
+//										.flatMap( x ->  x. )
+//										.forEach(System.out::println);
+//				
+				
+//																			.peek(System.out::println)
+//																			  .flatMap( x -> {
+//																				  		x.toString();
+//																			  }
+//																			  .stream()
+//																			  ;
 		
 		
-		
-		
-		
-	
+				
+				
+				
 		}
 	}
-
-
-
-
-
-
-
-
-
-
