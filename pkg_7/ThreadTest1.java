@@ -22,6 +22,9 @@ public class ThreadTest1 implements Runnable {
 			this.instant = instant;
 			this.message = message;
 		}
+		Event(String str){
+			this(Instant.now(),str);
+		}
 		@Override
 		public String toString() {
 			return "[Event: "+instant+" : "+message+"]";
@@ -48,12 +51,33 @@ public class ThreadTest1 implements Runnable {
 		
 	};
 	
+	Runnable workload2 = () -> {
+		int n = 0;
+		for ( int i = 0; i < 1_000_000; i++ ) {
+			n += i;
+		}
+		this.log.add( new ThreadTest1.Event(Instant.now(),"" + Thread.currentThread().getName() + " n = " + n ) );
+	};
+	
+	class SpecialThread extends Thread {
+		
+		SpecialThread( String name ){
+			super(name);
+		}
+		
+		@Override
+		public void run() {
+			workload2.run();
+		}
+	}
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		ThreadTest1 tt1 = new ThreadTest1();
-		tt1.test1();
+		//tt1.test1();
+		tt1.test2();
 	}
 
 	private void pause(long millis) {
@@ -63,6 +87,13 @@ public class ThreadTest1 implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
+	private void printLog( Queue<Event> log ) {
+		int initialSize = log.size(); 
+		for( int i = 0; i < initialSize; i++ ) {
+			System.out.println(log.poll());
+		}
+	}	
 	
 	private void test1() {
 		log.offer( new Event(Instant.now(), "test1 started") );
@@ -81,11 +112,24 @@ public class ThreadTest1 implements Runnable {
 		this.printLog(log);
 	}
 
-	private void printLog( Queue<Event> log ) {
-		int initialSize = log.size(); 
-		for( int i = 0; i < initialSize; i++ ) {
-			System.out.println(log.poll());
+	private void test2() {
+		SpecialThread st1 = new SpecialThread("Fred");	// ctor are not inherited
+		SpecialThread st2 = new SpecialThread("Barny");
+		st1.start();
+		System.out.println(st1.getState());
+		st2.start();
+		
+		try {
+			st1.join();
+			st2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
+		System.out.println(st1.getState());
+		System.out.println(st2.getState());
+		this.printLog(log);
 	}
+
 	
 }

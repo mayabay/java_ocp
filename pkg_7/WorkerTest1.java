@@ -36,7 +36,8 @@ public class WorkerTest1 {
 	 */
 	public static void main(String[] args) {
 		WorkerTest1 wk1 = new WorkerTest1();
-		wk1.test1();
+		//wk1.test1();
+		wk1.test2();
 	}
 
 	private void sleep( long milliSeconds ) {
@@ -82,6 +83,18 @@ public class WorkerTest1 {
 		//System.out.println("isShutdown() = " + es.isShutdown());
 	}
 	
-	
+	private void test2() {
+		
+		System.out.println("1");
+		Thread t1 = new Thread( this.ronny, "t1" );
+		t1.start();
+		try {
+			t1.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//t1.start();		// java.lang.IllegalThreadStateException
+		System.out.println("2");
+	}
 	
 }

@@ -34,14 +34,14 @@ public class ManuSNPTest1 {
 	/**
 	 * # rsid  chromosome  position    genotype
 	 * */
-	class SNP {
+	public class SNP {
 		
 		private String rsid;
 		private String chromosome;
 		private int position;
 		private String genotype;
 		
-		SNP(String rsid, String chromosome, int position, String genotype) {
+		public SNP(String rsid, String chromosome, int position, String genotype) {
 			super();
 			this.rsid = rsid;
 			this.chromosome = chromosome;
@@ -52,34 +52,35 @@ public class ManuSNPTest1 {
 		/**
 		 * @return the rsid
 		 */
-		String getRsid() {
+		public String getRsid() {
 			return rsid;
 		}
 
 		/**
 		 * @return the chromosome
 		 */
-		String getChromosome() {
+		public String getChromosome() {
 			return chromosome;
 		}
 
 		/**
 		 * @return the position
 		 */
-		int getPosition() {
+		public int getPosition() {
 			return position;
 		}
 
 		/**
 		 * @return the genotype
 		 */
-		String getGenotype() {
+		public String getGenotype() {
 			return genotype;
 		}
 
 	}
 	
 	Path path = Paths.get("/home/andreas/git/dna/ManuSporny-genome.txt");
+	Path pathTest = Paths.get("/home/andreas/git/ManuTest.txt");
 	
 	List<String> lines = new ArrayList<>();
 	List<SNP> snps = new ArrayList<>();
@@ -91,6 +92,25 @@ public class ManuSNPTest1 {
 	Consumer<?> objToConsole = System.out::println;
 	IntConsumer intToConsole = System.out::println;
 	
+	Function<String,SNP> stringToSNPMapper = (str) -> {
+		String[] arr = str.split("\t");
+		if (arr.length == 4) {
+			SNP snp = null;
+			try {
+				snp = new SNP(arr[0], arr[1], Integer.parseInt(arr[2]), arr[3]);
+				counter++;
+			}catch( NumberFormatException e ) {
+				//counter++;
+				//counterLocal++;
+				return null;
+			}
+			return snp;
+		}
+		else {
+			return null;
+		}		
+	};
+	
 	/**
 	 * @param args
 	 */
@@ -98,7 +118,7 @@ public class ManuSNPTest1 {
 		ManuSNPTest1 test1 = new ManuSNPTest1();
 		
 		try {
-			test1.loadLines();
+			test1.loadLines( false );	// don`t use test data
 		}catch( IOException e ) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -109,10 +129,10 @@ public class ManuSNPTest1 {
 		System.out.println("Ende");
 	}
 	
-	private void loadLines() throws IOException {
+	private void loadLines( boolean useTest ) throws IOException {
 		
 		try(
-				FileInputStream fis = new FileInputStream(path.toFile());
+				FileInputStream fis = new FileInputStream( useTest ? pathTest.toFile() : path.toFile() );
 				InputStreamReader in = new InputStreamReader( fis );
 				BufferedReader buf = new BufferedReader(in);				
 				){
@@ -180,25 +200,7 @@ public class ManuSNPTest1 {
 		.stream()
 		//.parallelStream()
 		.unordered()
-		.map( str -> {
-				String[] arr = str.split("\t");
-				if (arr.length == 4) {
-					SNP snp = null;
-					try {
-						snp = new SNP(arr[0], arr[1], Integer.parseInt(arr[2]), arr[3]);
-						counter++;
-					}catch( NumberFormatException e ) {
-						//counter++;
-						//counterLocal++;
-						return null;
-					}
-					return snp;
-				}
-				else {
-					return null;
-				}
-			} 
-		)
+		.map( stringToSNPMapper	)
 		.filter( Predicate.not( Objects::isNull ) )
 		//.filter( snp -> snp.getChromosome().equals("2") )
 		.mapToInt(SNP::getPosition)
@@ -213,6 +215,30 @@ public class ManuSNPTest1 {
 		System.out.println("duration milli sec. : " + (du.getNano()/1000) );
 		System.out.println("duration mikro sec. : " + (du.getNano()/1000_000) );		
 		
+	}
+	
+	public List<SNP> getManusSNPList( boolean useTest ){
+		List<SNP> list = new ArrayList<ManuSNPTest1.SNP>();
+		try {
+			this.loadLines( useTest );	
+		}catch( IOException e ) {
+			e.printStackTrace(); 
+			System.exit(-1);
+		}
+		
+		System.out.println("lines = " + lines.size());
+		
+		list =
+		this.lines
+		.stream()
+			.filter( str -> ! str.startsWith("#") )
+			.map(stringToSNPMapper)
+			.filter( Predicate.not( Objects::isNull ) )
+		.collect( Collectors.toList() );
+		
+		System.out.println("list = " + list.size());
+		
+		return list;
 	}
 	
 }
