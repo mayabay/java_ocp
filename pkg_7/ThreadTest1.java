@@ -21,6 +21,7 @@ public class ThreadTest1 implements Runnable {
 			super();
 			this.instant = instant;
 			this.message = message;
+			//System.out.println(this);
 		}
 		Event(String str){
 			this(Instant.now(),str);
