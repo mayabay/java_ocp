@@ -190,6 +190,8 @@ public class ManuSNPTest1 {
 
 	private void test2() {
 		
+		Predicate<Object> isNull = Objects::isNull;
+		
 		int counterLocal = 0;
 		
 		logs.put(1, Instant.now());
@@ -201,7 +203,7 @@ public class ManuSNPTest1 {
 		//.parallelStream()
 		.unordered()
 		.map( stringToSNPMapper	)
-		.filter( Predicate.not( Objects::isNull ) )
+		.filter( isNull.negate() )
 		//.filter( snp -> snp.getChromosome().equals("2") )
 		.mapToInt(SNP::getPosition)
 		//.peek(intToConsole)
@@ -218,6 +220,9 @@ public class ManuSNPTest1 {
 	}
 	
 	public List<SNP> getManusSNPList( boolean useTest ){
+		
+		Predicate<Object> isNull = Objects::isNull;
+		
 		List<SNP> list = new ArrayList<ManuSNPTest1.SNP>();
 		try {
 			this.loadLines( useTest );	
@@ -233,7 +238,7 @@ public class ManuSNPTest1 {
 		.stream()
 			.filter( str -> ! str.startsWith("#") )
 			.map(stringToSNPMapper)
-			.filter( Predicate.not( Objects::isNull ) )
+			.filter( isNull.negate() )
 		.collect( Collectors.toList() );
 		
 		System.out.println("list = " + list.size());
