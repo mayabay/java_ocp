@@ -1,5 +1,7 @@
 package pkg_3;
 import java.util.*;
+
+
 class Ferry {
 	
 	public static void main(String[] args){
