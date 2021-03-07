@@ -106,7 +106,7 @@ public class BoundsTest5 {
 		for ( Object o : vaccinated ) {		// works with List<?>
 			System.out.println(o);
 		}
-		this.test3(new TreeSet<Person>(vaccinated), p2);	// What is ordering here?
+		//this.test3(new TreeSet<Person>(vaccinated), p2);	// What is ordering here?
 	}
 	
 	private List<Person> vaccinatePersons( Person...persons ) {
