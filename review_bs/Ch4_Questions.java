@@ -4,6 +4,8 @@
 package review_bs;
 
 import java.util.function.Predicate;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
@@ -16,6 +18,26 @@ import java.util.stream.IntStream;
  */
 public class Ch4_Questions {
 
+	class Person {
+		private String name;
+		private int ageInYears;
+		Person () {}
+		/**
+		 * @param name
+		 * @param ageInYears
+		 */
+		Person(String name, int ageInYears) {
+			super();
+			this.name = name;
+			this.ageInYears = ageInYears;
+		}
+		@Override
+		public String toString() {
+			return "Person [name=" + name + ", ageInYears=" + ageInYears + "]";
+		}
+		
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -25,11 +47,20 @@ public class Ch4_Questions {
 		//o.q3();
 		//o.q6();
 		//o.q11();
-		o.q14();
-
+		//o.q14();
+		o.test1();
 
 	}
 
+	private void test1() {
+		
+		Stream<Person> persons = Stream.of( new Person("Bob", 45), new Person("Fred", 23), new Person("Lisa",45) );
+		Stream<Person> noPersons = Stream.empty();
+		
+		Map<Boolean, List<Person>> map1 =
+				noPersons.collect( Collectors.partitioningBy( p -> p.ageInYears > 64 ) );
+		System.out.println(map1);
+	}
 	
 	private void q2() {
 		Predicate<? super String> pred = (s) -> s.startsWith("g"); 

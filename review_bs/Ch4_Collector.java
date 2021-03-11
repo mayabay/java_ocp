@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.*;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Ch4_Collector {
 
@@ -30,14 +31,19 @@ public class Ch4_Collector {
         Ch4_Collector obj = new Ch4_Collector();
         //obj.test1();
         //obj.test2();
-        obj.test3();
+        // obj.test3();
+        //obj.test4();
+        //obj.test5();
+        obj.test6();
     }
 
     private Supplier<List<Person>> personSupp = () -> Arrays.asList( 
         new Person("Fred",43, 'm'),
         new Person("Linda",12, 'w'),
         new Person("Barni", 56,'m'),
+        new Person("Barni", 16,'m'),
         new Person("Bart", 25,'m')
+        
     );
 
     private void test1(){
@@ -67,4 +73,43 @@ public class Ch4_Collector {
         System.out.println(map);
     }    
 
+    private void test4(){
+        Map<Boolean, List<Person>> map =
+        personSupp.get().stream()
+            .peek(System.out::println )
+            .collect( 
+                Collectors.partitioningBy( p -> p.sex == 'w' )
+             );
+        System.out.println(map);
+    }    
+    
+    private void test5(){
+        Map<Boolean, String> map =
+        personSupp.get().stream()
+            .peek(System.out::println )
+            .collect( 
+                Collectors.partitioningBy( p -> p.sex == 'w',
+                	Collectors.mapping(p->p.name, 
+                			Collectors.joining("--")
+                			)
+                		)
+             );
+        System.out.println(map);
+    }      
+    
+    private void test6(){
+        Map<String, Integer> map =
+        personSupp.get().stream()
+            .peek(System.out::println )
+            .collect( 
+                //Collectors.toMap( (p) -> p.name, (p) -> p.ageInYears )
+            	//Collectors.toMap( (p) -> p.name, (p) -> p.ageInYears, (ageInYears1, ageInYears2) -> ageInYears1 + ageInYears2 )	
+            	Collectors.toMap( (p) -> p.name, (p) -> p.ageInYears,
+            					(ageInYears1, ageInYears2) -> ageInYears1 + ageInYears2,
+            					HashMap::new
+            					)
+            	);
+        System.out.println(map);
+    }     
+    
 }

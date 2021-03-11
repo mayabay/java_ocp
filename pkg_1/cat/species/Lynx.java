@@ -17,6 +17,7 @@ public class Lynx extends BigCat {
 		// package private
 		// System.out.println( cat.hasPaws  );	// DNC 18: error: hasPaws is not public in BigCat; cannot be accessed from outside package
 
+
 		// access protected 
 		Lynx lynx = new Lynx();
 		System.out.println( lynx.hasFur  );		// OK

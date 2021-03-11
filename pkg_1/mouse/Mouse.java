@@ -1,5 +1,5 @@
 package pkg_1.mouse;
-import pkg_1.cat.BigCat;
+import cat.BigCat;
 public class Mouse {
 
 
