@@ -46,6 +46,7 @@ public class Ch4_Collector {
         
     );
 
+    /* toCollection */
     private void test1(){
         Stream<Person> stream = Stream.of( new Person("Fred",43), new Person("Linda",12) );
         HashSet<Person> hs = stream
@@ -53,6 +54,7 @@ public class Ch4_Collector {
         System.out.println(hs);
     }
 
+    /* mapping */
     private void test2(){
         String str =
         personSupp.get().stream()
@@ -63,6 +65,7 @@ public class Ch4_Collector {
         System.out.println(str);
     }
 
+    /* groupingBy */
     private void test3(){
         Map<Character, List<Person>> map =
         personSupp.get().stream()
@@ -73,6 +76,7 @@ public class Ch4_Collector {
         System.out.println(map);
     }    
 
+    /* partitioningBy */
     private void test4(){
         Map<Boolean, List<Person>> map =
         personSupp.get().stream()
@@ -83,6 +87,7 @@ public class Ch4_Collector {
         System.out.println(map);
     }    
     
+    /* partitioningBy with dc */
     private void test5(){
         Map<Boolean, String> map =
         personSupp.get().stream()
@@ -97,6 +102,7 @@ public class Ch4_Collector {
         System.out.println(map);
     }      
     
+    /* toMap */
     private void test6(){
         Map<String, Integer> map =
         personSupp.get().stream()

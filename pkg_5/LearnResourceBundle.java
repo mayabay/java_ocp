@@ -7,6 +7,8 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,6 +17,8 @@ import java.util.ResourceBundle;
  *
  */
 public class LearnResourceBundle {
+	
+	Path current = Paths.get("./src/pkg_5");
 	
 	/**
 	 * @param args
