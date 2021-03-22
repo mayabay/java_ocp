@@ -20,8 +20,8 @@ public class PathTest3 {
 	public static void main(String[] args) {
 		PathTest3 pt3 = new PathTest3();
 		//pt3.test1();
-		//pt3.test0();
-		pt3.test2();
+		pt3.test0();
+		//pt3.test2();
 
 	}
 
@@ -105,78 +105,54 @@ public class PathTest3 {
 		/*
 			relativize() 
 			
-			enter path 1 : 
-			/tmp/sub/file
-			enter path 2 : 
-			/tmp/sub/dir/afile
-			rel. path : ..\dir\afile	
+			enter path 1 : 			/tmp/sub/file
+			enter path 2 : 			/tmp/sub/dir/afile
+			rel. path : 			..\dir\afile	
 					
-			enter path 1 : 
-			/tmp/dir/file
-			enter path 2 : 
-			/tmp/dir/file
+			enter path 1 : 			/tmp/dir/file
+			enter path 2 : 			/tmp/dir/file
 			rel. path : 		
 		
-			enter path 1 : 
-			/file
-			enter path 2 : 
-			/tmp/dir1/dir2/file2
-			rel. path : ..\tmp\dir1\dir2\file2		
+			enter path 1 : 			/file
+			enter path 2 : 			/tmp/dir1/dir2/file2
+			rel. path : 			..\tmp\dir1\dir2\file2		
 		
-			enter path 1 : 
-			/home/sysadm/bin/cmd.sh
-			enter path 2 : 
-			/home/sysadm/log
-			rel. path : ..\..\log		
+			enter path 1 : 			/home/sysadm/bin/cmd.sh
+			enter path 2 : 			/home/sysadm/log
+			rel. path : 			..\..\log		
 		
-			enter path 1 : 
-			/root/afile.txt
-			enter path 2 : 
-			/tmp/
-			rel. path : ..\..\tmp		
+			enter path 1 : 			/root/afile.txt
+			enter path 2 : 			/tmp/
+			rel. path : 			..\..\tmp		
 		
-			enter path 1 : 
-			/home/fred
-			enter path 2 : 
-			/tmp/barnie/log.txt
-			rel. path : ..\..\tmp\barnie\log.txt		
+			enter path 1 : 			/home/fred
+			enter path 2 : 			/tmp/barnie/log.txt
+			rel. path : 			..\..\tmp\barnie\log.txt		
 		
-			enter path 1 : 
-			/tmp/dir
-			enter path 2 : 
-			/home/frank/file
-			What do you think? : 
-			../../home/frank
+			enter path 1 : 			/tmp/dir
+			enter path 2 : 			/home/frank/file
+			What do you think? :	../../home/frank
 			..
 			rel. path u() : ..\..\home\frank
 			rel. path m() : ..\..\home\frank\file		
 		
-			enter path 1 : 
-			/home/./../file
-			enter path 2 : 
-			/home/frank/file
-			What do you think? : 
-			../frank/file
+			enter path 1 : 			/home/./../file
+			enter path 2 : 			/home/frank/file
+			What do you think? :	../frank/file
 			..
 			rel. path u() : ..\frank\file
 			rel. path m() : ..\..\..\frank\file		
 		
-			enter path 1 : 
-			tmp1/file
-			enter path 2 : 
-			file
-			What do you think? : 
-			../file
+			enter path 1 : 			tmp1/file
+			enter path 2 : 			file
+			What do you think? :	../file
 			..
 			rel. path u() : ..\file
 			rel. path m() : ..\..\file		
 		
-			enter path 1 : 
-			/home
-			enter path 2 : 
-			/home/file
-			What do you think? : 
-			file
+			enter path 1 : 			/home
+			enter path 2 : 			/home/file
+			What do you think? :	file
 			..
 			rel. path u() : file
 			rel. path m() : file
