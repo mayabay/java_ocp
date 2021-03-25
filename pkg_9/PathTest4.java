@@ -9,11 +9,17 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.DosFileAttributeView;
 import java.nio.file.attribute.DosFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.PosixFileAttributes;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 /**
@@ -103,22 +109,41 @@ public class PathTest4 {
 		System.out.println("isWritable : " + Files.isWritable(p));
 		System.out.println("isExecutable : " + Files.isExecutable(p));
 		
-		System.out.println("BasicFileAttributes");
+		System.out.println("BasicFileAttributes : ");
 		BasicFileAttributes basicFileAttr = Files.readAttributes(p, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
-		System.out.println("bfa creationTime : " + basicFileAttr.creationTime());
+		System.out.println("bfa creationTime : " + basicFileAttr.creationTime()); FileTime timeCreated = basicFileAttr.creationTime();
 		System.out.println("bfa lastAccessTime : " + basicFileAttr.lastAccessTime());
 		System.out.println("bfa lastModifiedTime : " + basicFileAttr.lastModifiedTime());
 		
-		System.out.println("DosFileAttributes");
+		System.out.println("DosFileAttributes : ");
 		DosFileAttributes dosFileAttr = Files.readAttributes(p, DosFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
 		System.out.println("dfa isSystem : " + dosFileAttr.isSystem() );
+		System.out.println("dfa isHidden : " + dosFileAttr.isHidden() );
 		
-		System.out.println("PosixFileAttributes");
+		System.out.println("changing isHidden ..");
+		DosFileAttributeView dosFileAttrView =  Files.getFileAttributeView(p, DosFileAttributeView.class);
+		dosFileAttrView.setHidden(true);
+		
+		System.out.println("changing creationTime ..");
+		LocalDateTime ldt = LocalDateTime.of(1973,8,5,12,15,45);
+		OffsetDateTime ldtUTC =  ldt.atOffset(ZoneOffset.UTC);
+		dosFileAttrView.setTimes(null, null, FileTime.fromMillis( ldtUTC.toEpochSecond() ));
+		
+		BasicFileAttributes basicFileAttr2 = Files.readAttributes(p, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+		DosFileAttributes dosFileAttr2 = Files.readAttributes(p, DosFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+		System.out.println("dfa isHidden : " + dosFileAttr2.isHidden() );
+		dosFileAttrView.setHidden(false);		
+		System.out.println("bfa creationTime : " + basicFileAttr2.creationTime());
+		
+		LocalDateTime ldt2 = LocalDateTime.of(2021,3,18,16,15,52);
+		OffsetDateTime ldtUTC2 =  ldt2.atOffset(ZoneOffset.UTC);
+		dosFileAttrView.setTimes(null, null, FileTime.fromMillis( ldtUTC2.toEpochSecond() ));		
+		// 2021-03-18T04:15:52
+		
+		//System.out.println("PosixFileAttributes");
 		//PosixFileAttributes posixFileAttr = Files.readAttributes(p, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
 			// RTE  java.lang.UnsupportedOperationException when run under Windows
 		//System.out.println("pfa isRegularFile : " + posixFileAttr.isRegularFile() );
-		
-		
 		
 	}
 }

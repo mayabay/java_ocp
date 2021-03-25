@@ -78,6 +78,9 @@ public class Ch8_Q6 /*implements Ch8_Q6.SubSerializable*/ implements Serializabl
 	public static void main(String[] args) {
 		Ch8_Q6 test = new Ch8_Q6();
 		test.test1();
+		
+		
+		
 	}
 
 	private void test1() {
