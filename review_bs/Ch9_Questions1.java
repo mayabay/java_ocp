@@ -3,12 +3,20 @@
  */
 package review_bs;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.BasicFileAttributeView;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,7 +33,8 @@ public class Ch9_Questions1 {
 		//obj.test2();
 		//obj.test3();
 		//obj.test4();
-		obj.test6();
+		//obj.test6();
+		obj.test7();
 	}
 
 	private void test1() {
@@ -119,6 +128,86 @@ public class Ch9_Questions1 {
 	private void test6() {
 		Path path = Paths.get("/zoo/animals/bear/koala/food.txt");
 		System.out.println( path.subpath(1, 3).getName(1).toAbsolutePath() );
+	}
+	
+	private void test7() {
+		Path currDir = FileSystems.getDefault().getPath("./tmp");
+		try {
+			
+			Path adam = Paths.get("./tmp", "adam");
+			
+			FileVisitor fv_toRemove = new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+					System.out.println("will delete : " + dir);
+					return FileVisitResult.CONTINUE;
+				}
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					Files.list(dir)
+					.forEach(p -> {
+						try {
+							System.out.println(".. deleting file " + p.toString());
+							Files.deleteIfExists(p);
+						} catch (IOException e) {		// why need to catch here????
+							e.printStackTrace();
+						}
+					});					
+					Files.delete(dir);
+					return FileVisitResult.CONTINUE;
+				}
+			};
+			
+			// remove all directories
+			if ( Files.isDirectory(adam)) {
+				Files.walkFileTree(adam, fv_toRemove);
+			}
+			
+			// create structure
+			Files.createDirectory(Paths.get(currDir.toString(),"adam" ));
+			Files.createDirectory(Paths.get(currDir.toString(),"adam","abel" ));
+			Files.createDirectory(Paths.get(currDir.toString(),"adam","kain" ));
+			Files.createDirectories(Paths.get(currDir.toString(),"adam","seth","noah" ));
+			if ( !Files.exists(Paths.get(currDir.toString(),"eva" )) )
+			Files.createDirectory(Paths.get(currDir.toString(),"eva" ) );
+			
+			String textAdam = "Und Gott der Herr nahm den Menschen und setzte ihn"
+					+ " in den Garten Eden, dass er ihn bebaute und bewahrte.";
+			
+			BufferedWriter bw = Files.newBufferedWriter(Paths.get("./tmp", "adam", "adam.txt"));
+			bw.write(textAdam);
+			bw.flush();bw.close();		// !!!
+			
+			String textNoah = "Aber Noah fand Gnade vor dem Herrn.";
+			BufferedWriter bw2 = Files.newBufferedWriter(Paths.get("./tmp", "adam","seth","noah", "noah.txt"));
+			bw2.write(textNoah);
+			bw2.flush();bw2.close();	// !!!
+			
+			List<Path> list = new ArrayList<>();
+			FileVisitor<Path> fv_showContent = new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile( Path p, BasicFileAttributes attr ) throws IOException {
+					System.out.println("called for " + p);
+					Files.lines(p, Charset.defaultCharset())
+					//.peek(System.out::println)
+					.forEach(System.out::println);
+					return FileVisitResult.CONTINUE;
+				}
+				
+			};
+
+			if ( Files.exists(adam) ) {
+				adam = Paths.get("./tmp", "adam");
+				adam = Files.walkFileTree(adam, fv_showContent);
+				//Files.walk( adam ) 				.forEach(System.out::println);				
+			}
+			
+		}catch ( IOException e ) {
+			e.printStackTrace();System.exit(-1);
+		}
+		
+		
+		
 	}
 	
 }
