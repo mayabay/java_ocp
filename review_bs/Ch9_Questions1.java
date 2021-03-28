@@ -4,20 +4,32 @@
 package review_bs;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import pkg_9.FileAttributes;
 
 /**
  *
@@ -34,7 +46,10 @@ public class Ch9_Questions1 {
 		//obj.test3();
 		//obj.test4();
 		//obj.test6();
-		obj.test7();
+		//obj.test7();
+		//obj.test8();
+		//obj.test10();
+		obj.test11();
 	}
 
 	private void test1() {
@@ -128,10 +143,40 @@ public class Ch9_Questions1 {
 	private void test6() {
 		Path path = Paths.get("/zoo/animals/bear/koala/food.txt");
 		System.out.println( path.subpath(1, 3).getName(1).toAbsolutePath() );
+		
+		Set<String> set = FileSystems.getDefault().supportedFileAttributeViews();
+		System.out.println(set);
 	}
 	
 	private void test7() {
 		Path currDir = FileSystems.getDefault().getPath("./tmp");
+		if ( ! Files.exists(currDir) ) {
+			Set<String> setFSTypesSupported = FileSystems.getDefault().supportedFileAttributeViews();
+			if ( setFSTypesSupported.contains("posix") ) {
+				try {
+					//Files.createDirectory(currDir, PosixFilePermission.GROUP_WRITE );
+					
+					Set<PosixFilePermission> setOfPosixPerms = new HashSet<>();
+					setOfPosixPerms.add(PosixFilePermission.OWNER_READ);
+					setOfPosixPerms.add(PosixFilePermission.OWNER_WRITE);
+					setOfPosixPerms.add(PosixFilePermission.OWNER_EXECUTE);
+					setOfPosixPerms.add(PosixFilePermission.GROUP_WRITE);
+					setOfPosixPerms.add(PosixFilePermission.OTHERS_WRITE);
+					FileAttribute<Set<PosixFilePermission>> af = PosixFilePermissions.asFileAttribute(setOfPosixPerms);
+					Files.createDirectory(currDir, af );
+				} catch (IOException e) {
+					e.printStackTrace(); return;
+				}				
+			}
+			else {
+				try {
+					Files.createDirectory(currDir);
+				} catch (IOException e) {
+					e.printStackTrace(); return;
+				}
+			}
+			
+		}
 		try {
 			
 			Path adam = Paths.get("./tmp", "adam");
@@ -205,9 +250,59 @@ public class Ch9_Questions1 {
 		}catch ( IOException e ) {
 			e.printStackTrace();System.exit(-1);
 		}
-		
-		
-		
 	}
 	
+	
+	private void test8() {
+		Path zoo = Paths.get(".","zoo");
+		Path turkey = Paths.get("turkey");
+		try {
+			boolean test = Files.isSameFile(zoo, turkey);
+				// will access fs because both are not equal
+			if (test);
+				//Files.createDirectory(turkey.resolve("info"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		File f1 = new File("./zoo/cobra.data_NOT_EXISTING");
+		File f2 = new File("./zoo/cobra.data_NOT_EXISTING");
+		if ( f1.equals(f2) ) {
+			System.out.println("same");
+		}
+	}
+	
+	private void test9() {
+		Path src = Paths.get("./zoo/snake.data");
+		Path trg = Paths.get("./zoo/snake2.data");
+		try {
+			Path trg2 = Files.move(src, trg, StandardCopyOption.ATOMIC_MOVE, LinkOption.NOFOLLOW_LINKS);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void test10() {
+		try {
+			Path p = Paths.get(new URI("uri"));
+			System.out.println(p);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	private void test11() {
+		Path p1 = Paths.get("zoo/./bears/../codiacbear.txt");
+		Path p2 = Paths.get("zoo/birds/../codiacbear.txt");
+		System.out.println( "equals : " + p1.equals(p2)  );		// false
+		System.out.println( "equals with normalize : " + p1.normalize().equals(p2.normalize())  ); // true
+		try {
+			System.out.println( "isSameFile : " + Files.isSameFile(p1, p2) );
+			// RTE java.nio.file.NoSuchFileException: zoo/./bears/../codiacbear.txt
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
