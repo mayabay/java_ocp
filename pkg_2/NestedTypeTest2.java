@@ -13,7 +13,7 @@ public class NestedTypeTest2 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		pkg_1.NestedTypesTest1.B b1 = new pkg_1.NestedTypesTest1.B(23);
+		//pkg_1.NestedTypesTest1.B b1 = new pkg_1.NestedTypesTest1.B(23);
 
 	}
 
