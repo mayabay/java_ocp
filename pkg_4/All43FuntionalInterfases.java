@@ -17,8 +17,29 @@ public class All43FuntionalInterfases {
 
 	private static volatile int id_source;
 	private volatile int id;	
+
+	private static All43FuntionalInterfases instance;
 	
-	class Animal { public String toString() { return "[Animal]"; } }
+	class Animal implements Comparable<Animal> { 
+		private String name;
+		private int ageInYears;
+		private double weight;
+		Animal() {}
+		Animal( String name, int ageInYears, double weight ) { 
+			this.name = name; 
+			this.ageInYears = ageInYears;
+			this.weight = weight;
+		}
+		public int compareTo(Animal animal) { 
+			if ( this.ageInYears == animal.ageInYears )
+				return 0;
+			else if ( this.ageInYears > animal.ageInYears )
+				return 1;
+			else 
+				return -1;
+		}
+		public String toString() { return "[Animal]"; } 
+	}
 	class Dog extends Animal { public String toString() { return "[Dog]"; } }
 	class Cat extends Animal { public String toString() { return "[Cat]"; } }
 	
@@ -29,6 +50,22 @@ public class All43FuntionalInterfases {
 		T getContent() { return t; }
 		public String toString() { return "[SecretBox ("+ID+"): " + t.toString() + "]"; }
 	}
+
+	@FunctionalInterface
+	static interface AnimalOperation<Animal> {
+		boolean checkAnimal( Animal animal );
+	}
+	
+	// static mr
+	UnaryOperator<SecretBox<Animal>> boxChanger = All43FuntionalInterfases::changeBox;
+		// mr for later instance
+	BinaryOperator<Animal> animalOp = instance::changeAnimals;	// DNC All43FuntionalInterfases
+		//cannot use static ref for non static method
+	// instance mr
+	Function<Animal,Boolean> funcionTest = instance::vetCheck;
+	// custom functional interface
+	AnimalOperation<Animal> evaluateToFalse = a -> false;
+	
 	
 	/**
 	 * @param args
@@ -73,5 +110,17 @@ public class All43FuntionalInterfases {
 		cons.accept(d);
 		return true;
 	}
+
+	private static SecretBox<Animal> changeBox ( SecretBox<Animal> box )  {
+		// return new SecretBox<Animal>( box.getContent() );	// DNC inner class ctor needs instance of enclosing class
+		return instance.new SecretBox<Animal>( box.getContent() );
+	}
 	
+	private Animal changeAnimals( Animal a1, Animal a2 ) {
+		return a2;
+	}
+	
+	private boolean vetCheck( Animal animal ) {
+		return (Math.random()) > 0.5;
+	}
 }
